@@ -91,10 +91,10 @@ sensor:
           - 0.001 -> 0.0
           # Spec says 1V = 100 A = 24 kW
           - 1.000 -> 24.0
-      - clamp:
-          min_value: 0.0
-          max_value: 24.0
-          ignore_out_of_range: false
+      # - clamp:
+      #     min_value: 0.0
+      #     max_value: 24.0
+      #     ignore_out_of_range: false
     unit_of_measurement: "kW"
 
   - name: 'Carport Energy Today'
