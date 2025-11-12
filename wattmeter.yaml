@@ -23,7 +23,7 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret intelliflo_ota_password
+    password: !secret ota_password
   - platform: web_server
 
 web_server:
@@ -41,28 +41,18 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "intelliflo"
-    password: !secret intelliflo_hotspot_password
+    password: !secret hotspot_password
 
 captive_portal:
 
 time:
   - platform: homeassistant
     id: homeassistant_time
-#text_sensor:
-#  - platform: pentair_intelliflo
-#    program:
-#      name: "Program"
 
 button:
-  # - platform: template
-  #   name: "Pentair test"
-  #   entity_category: CONFIG
-  #   on_press: 
-  #     then: 
-  #       - lambda: !lambda |- 
-  #           id(pentair).pumpToRemoteControl();
-  #           id(pentair).commandRPM(1000);
-  - platform: restart
+  - name: "Atom_Restart"
+    entity_category: CONFIG
+    platform: restart
     name: "Atom_Restart"
     id: atomrestart
 
