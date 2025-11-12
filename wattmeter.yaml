@@ -75,7 +75,7 @@ i2c:
 ads1115:
   i2c_id: bus_a
   address: 0x48
-#  continuous_mode: on
+  continuous_mode: on
   id: ads1115_48
   
 sensor:
