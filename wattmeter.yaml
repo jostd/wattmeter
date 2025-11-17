@@ -3,6 +3,15 @@ esphome:
   friendly_name: ${wattmeter_friendly_name}
   platformio_options:
     upload_speed: 115200 # Example upload speed
+  on_boot:
+    - priority: -100
+      then:
+        - light.turn_on:
+            id: atom_light
+        - light.control:
+            id: atom_light
+            effect: "Breathing Effect"
+
 
 esp32:
   # platform: ESP32
@@ -53,20 +62,27 @@ button:
   - name: "Atom_Restart"
     entity_category: CONFIG
     platform: restart
-    name: "Atom_Restart"
     id: atomrestart
 
 i2c:
-  id: bus_a
-  sda: GPIO25
-  scl: GPIO21
-  scan: True
+  - id: bus_a
+    sda: GPIO25
+    scl: GPIO21
+    scan: True
+  - id: bus_b
+    sda: GPIO26
+    scl: GPIO32
+    scan: True
 
 ads1115:
-  i2c_id: bus_a
-  address: 0x48
-  continuous_mode: on
-  id: ads1115_48
+  - id: ads1115_48
+    i2c_id: bus_a
+    address: 0x48
+    continuous_mode: on
+  - id: ads1115_48_2
+    i2c_id: bus_b
+    address: 0x48
+    continuous_mode: on
   
 sensor:
   - name: 'Carport Power'
@@ -75,10 +91,11 @@ sensor:
     id: carport_power
     update_interval: 10s
     sample_duration: 2000ms
+    accuracy_decimals: 4
     filters:
       - calibrate_linear:
           # Try to limit noise
-          - 0.001 -> 0.0
+          - 0.0005 -> 0.0
           # Spec says 1V = 100 A = 24 kW
           - 1.000 -> 24.0
       - clamp:
@@ -122,6 +139,31 @@ sensor:
   - name: "ADS1115 48 Channel A3-GND"
     id: ads1115_a3
     ads1115_id: ads1115_48
+    multiplexer: 'A3_GND'
+    gain: 6.144
+    platform: ads1115    
+  - name: "ADS1115 48 2 Channel A0-GND"
+    id: ads1115_2_a0
+    ads1115_id: ads1115_48_2
+    multiplexer: 'A0_GND'
+    gain: 6.144
+    platform: ads1115
+    #internal: True
+  - name: "ADS1115 48 2 Channel A1-GND"
+    id: ads1115_2_a1
+    ads1115_id: ads1115_48_2
+    multiplexer: 'A1_GND'
+    gain: 6.144
+    platform: ads1115
+  - name: "ADS1115 48 2 Channel A2-GND"
+    id: ads1115_2_a2
+    ads1115_id: ads1115_48_2
+    multiplexer: 'A2_GND'
+    gain: 6.144
+    platform: ads1115
+  - name: "ADS1115 48 2 Channel A3-GND"
+    id: ads1115_2_a3
+    ads1115_id: ads1115_48_2
     multiplexer: 'A3_GND'
     gain: 6.144
     platform: ads1115    
